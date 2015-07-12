@@ -7,7 +7,7 @@ You can read [Build.dart and the Dart Editor Build System](http://www.dartlang.o
 
 ## Usage
 
-First activate the package with `pub global activate build_system`. Now you just need to launch `pub global run build_system:start` and the `build.dart` file will be called at every file creation/modification/deletion.
+First activate the package with `pub global activate build_system`. Now you just need to launch `pub global run build_system` and the `build.dart` file will be called at every file creation/modification/deletion.
 
 ## License ##
 Apache 2.0

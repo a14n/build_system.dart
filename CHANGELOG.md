@@ -1,4 +1,8 @@
 
+# v0.0.2 (2015-07-12)
+
+Start service with `pub global run build_system`.
+
 # v0.0.1 (2015-07-12)
 
 Initial version.

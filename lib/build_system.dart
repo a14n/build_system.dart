@@ -26,6 +26,8 @@ watch(String projectPath) async {
     throw 'There is no build.dart file in $projectPath';
   }
 
+  print('Watching $projectPath');
+
   await for (WatchEvent e in new Watcher(projectPath).events) {
     final args = ['build.dart', '--machine'];
     switch (e.type) {
