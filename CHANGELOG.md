@@ -1,4 +1,8 @@
 
+# v0.0.2+1 (2015-07-12)
+
+Fix typo in file name.
+
 # v0.0.2 (2015-07-12)
 
 Start service with `pub global run build_system`.
