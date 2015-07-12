@@ -16,7 +16,7 @@ main() {
   test('create file', () async {
     await withBuildSystem(projectPath, expectAsync(() async {
       await new File(p.join(projectPath, 'file.txt')).create();
-      sleep(const Duration(milliseconds: 100));
+      sleep(const Duration(milliseconds: 200));
       expect(await new File(p.join(projectPath, 'log.txt')).readAsString(),
           equals('--machine --changed file.txt'));
     }));
@@ -26,7 +26,7 @@ main() {
     final file = await new File(p.join(projectPath, 'file.txt'))..create();
     await withBuildSystem(projectPath, expectAsync(() async {
       await file.writeAsString('something');
-      sleep(const Duration(milliseconds: 100));
+      sleep(const Duration(milliseconds: 200));
       expect(await new File(p.join(projectPath, 'log.txt')).readAsString(),
           equals('--machine --changed file.txt'));
     }));
@@ -36,7 +36,7 @@ main() {
     final file = await new File(p.join(projectPath, 'file.txt'))..create();
     await withBuildSystem(projectPath, expectAsync(() async {
       await file.delete();
-      sleep(const Duration(milliseconds: 100));
+      sleep(const Duration(milliseconds: 200));
       expect(await new File(p.join(projectPath, 'log.txt')).readAsString(),
           equals('--machine --removed file.txt'));
     }));
@@ -49,7 +49,9 @@ main() {
 
 withBuildSystem(String projectPath, job()) async {
   final isolate = await Isolate.spawn(watch, projectPath);
-  sleep(const Duration(milliseconds: 100));
+
+  // waiting for the file watcher (quite long on travis)
+  sleep(const Duration(milliseconds: 300));
   try {
     await job();
   } finally {

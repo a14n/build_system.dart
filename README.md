@@ -1,5 +1,7 @@
 # Build system
 
+[![Build Status](https://travis-ci.org/a14n/dart-build-system.svg?branch=master)](https://travis-ci.org/a14n/dart-build-system)
+
 This package allows to simulate the behaviour of the Dart Editor with `build.dart`.
 You can read [Build.dart and the Dart Editor Build System](http://www.dartlang.org/tools/editor/build.html) to understand available interactions with Dart Editor.
 
