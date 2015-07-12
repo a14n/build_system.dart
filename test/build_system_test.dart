@@ -16,32 +16,32 @@ main() {
   });
 
   test('create file', () async {
-    await withBuildSystem(projectPath, expectAsync(() async {
+    await withBuildSystem(projectPath, () async {
       await new File(p.join(projectPath, 'file.txt')).create();
       sleep(_waitDuration);
       expect(await new File(p.join(projectPath, 'log.txt')).readAsString(),
           equals('--machine --changed file.txt'));
-    }));
+    });
   });
 
   test('modify file', () async {
     final file = await new File(p.join(projectPath, 'file.txt'))..create();
-    await withBuildSystem(projectPath, expectAsync(() async {
+    await withBuildSystem(projectPath, () async {
       await file.writeAsString('something');
       sleep(_waitDuration);
       expect(await new File(p.join(projectPath, 'log.txt')).readAsString(),
           equals('--machine --changed file.txt'));
-    }));
+    });
   });
 
   test('delete file', () async {
     final file = await new File(p.join(projectPath, 'file.txt'))..create();
-    await withBuildSystem(projectPath, expectAsync(() async {
+    await withBuildSystem(projectPath, () async {
       await file.delete();
       sleep(_waitDuration);
       expect(await new File(p.join(projectPath, 'log.txt')).readAsString(),
           equals('--machine --removed file.txt'));
-    }));
+    });
   });
 
   tearDown(() async {
