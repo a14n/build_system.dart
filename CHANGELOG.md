@@ -1,4 +1,8 @@
 
+# v0.0.2+2 (2015-07-13)
+
+Update homepage in pubspec.yaml
+
 # v0.0.2+1 (2015-07-12)
 
 Fix typo in file name.
