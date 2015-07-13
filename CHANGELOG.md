@@ -1,4 +1,8 @@
 
+# v0.0.2+3 (2015-07-13)
+
+Update link of travis badge
+
 # v0.0.2+2 (2015-07-13)
 
 Update homepage in pubspec.yaml
