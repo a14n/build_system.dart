@@ -6,6 +6,8 @@ import 'package:build_system/build_system.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
+const _waitDuration = const Duration(milliseconds: 300);
+
 main() {
   String projectPath;
 
@@ -14,32 +16,32 @@ main() {
   });
 
   test('create file', () async {
-    await withBuildSystem(projectPath, expectAsync(() async {
+    await withBuildSystem(projectPath, () async {
       await new File(p.join(projectPath, 'file.txt')).create();
-      sleep(const Duration(milliseconds: 200));
+      sleep(_waitDuration);
       expect(await new File(p.join(projectPath, 'log.txt')).readAsString(),
           equals('--machine --changed file.txt'));
-    }));
+    });
   });
 
   test('modify file', () async {
     final file = await new File(p.join(projectPath, 'file.txt'))..create();
-    await withBuildSystem(projectPath, expectAsync(() async {
+    await withBuildSystem(projectPath, () async {
       await file.writeAsString('something');
-      sleep(const Duration(milliseconds: 200));
+      sleep(_waitDuration);
       expect(await new File(p.join(projectPath, 'log.txt')).readAsString(),
           equals('--machine --changed file.txt'));
-    }));
+    });
   });
 
   test('delete file', () async {
     final file = await new File(p.join(projectPath, 'file.txt'))..create();
-    await withBuildSystem(projectPath, expectAsync(() async {
+    await withBuildSystem(projectPath, () async {
       await file.delete();
-      sleep(const Duration(milliseconds: 200));
+      sleep(_waitDuration);
       expect(await new File(p.join(projectPath, 'log.txt')).readAsString(),
           equals('--machine --removed file.txt'));
-    }));
+    });
   });
 
   tearDown(() async {

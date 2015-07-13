@@ -14,6 +14,7 @@
 
 library build_system;
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:path/path.dart' as p;
@@ -21,7 +22,7 @@ import 'package:watcher/watcher.dart';
 
 /// Watch every file changes under [projectPath] and call `build.dart` with the
 /// same arguments the removed dart Editor did.
-watch(String projectPath) async {
+Future watch(String projectPath) async {
   if (!await new File(p.join(projectPath, 'build.dart')).exists()) {
     throw 'There is no build.dart file in $projectPath';
   }
