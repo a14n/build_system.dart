@@ -61,11 +61,9 @@ withBuildSystem(String projectPath, job()) async {
   }
 }
 
-int id = 0;
-
 Future<String> createTmpProject() async {
-  final dirPath = p.join(Directory.current.path, 'test', 'tmp-${id++}');
-  await new Directory(dirPath).create(recursive: true);
+  final dir = await Directory.systemTemp.createTemp();
+  final dirPath = dir.path;
 
   final buildFile = new File(p.join(dirPath, 'build.dart'));
   await buildFile.create(recursive: true);
