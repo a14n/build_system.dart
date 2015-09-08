@@ -1,4 +1,8 @@
 
+# v0.0.3 (2015-09-08)
+
+By default a full build is now done at startup (with `--machine --full` options). You can skip this behaviour with a `--no-full` argument.
+
 # v0.0.2+3 (2015-07-13)
 
 Update link of travis badge

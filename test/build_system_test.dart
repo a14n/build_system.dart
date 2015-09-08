@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
@@ -13,6 +14,15 @@ main() {
 
   setUp(() async {
     projectPath = await createTmpProject();
+  });
+
+  test('start with full build', () async {
+    await new File(p.join(projectPath, 'file.txt'))..create();
+    await withBuildSystem(projectPath, () async {
+      sleep(_waitDuration);
+      expect(await new File(p.join(projectPath, 'log.txt')).readAsString(),
+          equals('--machine --full'));
+    }, startWithFullBuild: true);
   });
 
   test('create file', () async {
@@ -49,8 +59,16 @@ main() {
   });
 }
 
-withBuildSystem(String projectPath, job()) async {
-  final isolate = await Isolate.spawn(watch, projectPath);
+_start(String paramsAsJson) {
+  final params = JSON.decode(paramsAsJson);
+  final projectPath = params[0];
+  final startWithFullBuild = params[1];
+  watch(projectPath, startWithFullBuild: startWithFullBuild);
+}
+
+withBuildSystem(String projectPath, job(), {bool startWithFullBuild}) async {
+  final isolate = await Isolate.spawn(
+      _start, JSON.encode([projectPath, startWithFullBuild]));
 
   // waiting for the file watcher (quite long on travis)
   sleep(const Duration(milliseconds: 300));

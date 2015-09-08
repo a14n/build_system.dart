@@ -16,4 +16,5 @@ import 'dart:io';
 
 import 'package:build_system/build_system.dart';
 
-main() => watch(Directory.current.path);
+main(List<String> args) => watch(Directory.current.path,
+    startWithFullBuild: !args.contains('--no-full'));

@@ -22,31 +22,42 @@ import 'package:watcher/watcher.dart';
 
 /// Watch every file changes under [projectPath] and call `build.dart` with the
 /// same arguments the removed dart Editor did.
-Future watch(String projectPath) async {
+watch(String projectPath, {bool startWithFullBuild: true}) async {
   if (!await new File(p.join(projectPath, 'build.dart')).exists()) {
     throw 'There is no build.dart file in $projectPath';
   }
 
-  print('Watching $projectPath');
+  if (startWithFullBuild == true) {
+    print('Full build');
+    await _callBuild(projectPath, ['--full']);
+  }
+
+  print('Watching changes');
 
   await for (WatchEvent e in new Watcher(projectPath).events) {
-    final args = ['build.dart', '--machine'];
+    final extraArgs = [];
     switch (e.type) {
       case ChangeType.ADD:
       case ChangeType.MODIFY:
-        args.add('--changed');
+        extraArgs.add('--changed');
         break;
       case ChangeType.REMOVE:
-        args.add('--removed');
+        extraArgs.add('--removed');
         break;
     }
-    args.add(p.relative(e.path, from: projectPath));
-
-    print('---\n${args.join(' ')}');
-    final sw = new Stopwatch()..start();
-    final pr = await Process.run('dart', args, workingDirectory: projectPath);
-    stdout.write(pr.stdout);
-    stderr.write(pr.stderr);
-    print('build.dart finished [${sw.elapsedMilliseconds} ms]\n');
+    extraArgs.add(p.relative(e.path, from: projectPath));
+    await _callBuild(projectPath, extraArgs);
   }
+}
+
+Future<Null> _callBuild(String projectPath, List<String> extraArgs) async {
+  final args = ['build.dart', '--machine'];
+  if (extraArgs != null) args.addAll(extraArgs);
+
+  print('---\n${args.join(' ')}');
+  final sw = new Stopwatch()..start();
+  final pr = await Process.run('dart', args, workingDirectory: projectPath);
+  stdout.write(pr.stdout);
+  stderr.write(pr.stderr);
+  print('build.dart finished [${sw.elapsedMilliseconds} ms]\n');
 }
