@@ -35,7 +35,7 @@ watch(String projectPath, {bool startWithFullBuild: true}) async {
   print('Watching changes');
 
   await for (WatchEvent e in new Watcher(projectPath).events) {
-    final extraArgs = [];
+    final extraArgs = <String>[];
     switch (e.type) {
       case ChangeType.ADD:
       case ChangeType.MODIFY:
@@ -51,7 +51,7 @@ watch(String projectPath, {bool startWithFullBuild: true}) async {
 }
 
 Future<Null> _callBuild(String projectPath, List<String> extraArgs) async {
-  final args = ['build.dart', '--machine'];
+  final args = <String>['build.dart', '--machine'];
   if (extraArgs != null) args.addAll(extraArgs);
 
   print('---\n${args.join(' ')}');
