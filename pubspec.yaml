@@ -1,5 +1,5 @@
 name: build_system
-version: 0.0.3
+version: 0.0.3+1
 author: Alexandre Ardhuin <alexandre.ardhuin@gmail.com>
 description: >
   A simple package to trigger a build.dart script every time a file is added,
